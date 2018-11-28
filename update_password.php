@@ -1,16 +1,17 @@
+
 <?php 
     session_start();
-    $username = $_SESSION['sess_username'];
+    require 'database-config.php';
+    $user_id=$_SESSION['sess_user_id'];
+    $useremail = $_SESSION['sess_user_email'];
     $role=$_SESSION['sess_userrole'];
-    
     if(!isset($_SESSION['sess_username'])){
       header('Location: index.php?err=2');
     }
-    if($role=='secretary'){
+    require_once 'updpsw_crud.php';
+	
 ?>
-<?php
-require_once 'accounts_crud.php';
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <style type="text/css">
@@ -45,15 +46,19 @@ input
             </button>
             </div>
 			<div id="navbarCollapse" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-				<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $username ?><b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-						<li><a href="secretary.php">Home</a></li>
-						<li><a href="update_password.php">Change Password</a></li>
-						<li><a href="logout.php">Logout</a></li>
-					</ul>
-				</li>
+            <ul class="nav navbar-nav navbar-left">
+				<?php if($role=='dean'){
+				   ?>
+				<li><li><a href="dean.php">Back</a></li>
+				<?php }?>
+				<?php if($role=='secretary'){
+				   ?>
+				<li><li><a href="secretary.php">Back</a></li>
+				<?php }?>
+				<?php if($role=='event_handler'){
+				   ?>
+				<li><li><a href="events.php">Back</a></li>
+				<?php }?>
 			</ul>
      </div>
     </nav>
@@ -69,66 +74,41 @@ input
 				
             <div id="bodyForm"><!-- Body Form Begin -->
 			<div id="screenTitle"><h2>School Of Social Work</h2></div>
+			<div id="screenTitle"><h3>Change Password</h3></div>
 			<div id="screen"><!-- screen begin -->
 			
 			
 			
 			<div class="panel">
-	
- 
-  <br />
- 
-  <?php
- 
-  $stmt = $dbh->prepare("SELECT * FROM `view_accounts` ");
-  $stmt->execute();
-  ?>
-  <table border="1" width="40%" class="table table-bordered">
-	  
-    <thead>
-		<h3>Account Details </h3>
-		<th><a href="export_excel.php?table=accounts">Export Excel</a></th>
-		<tr class="success">
-		<td>Account ID</td>
-        <td>Account Name</td>
-        <td>Account Fund Type</td>
-        <td>Account Funds Budgeted</td>
-        <td>Account Funds Spent</td>
-        <td>Account Available Funds</td>
-        <td>Semester Year</td>
-        </tr>
-    </thead>
-  <?php
-  if($stmt->rowCount() > 0)
-  {
-   while($row=$stmt->FETCH(PDO::FETCH_ASSOC))
-   {
-    ?>
-		
-       <tr class="active">
-       <td><?php print($row['Account_id']); ?></td>
-       <td><a href="secretary_cat.php?account_id=<?php print($row['Account_id']); ?>&semester=<?php print($row['semester_year']); ?>"><?php print($row['Account_name']); ?></a></td>
-       <td><?php print($row['Account_Fund_Type']); ?></td>
-       <td><?php print($row['Account_funds_budgeted']); ?></td>
-       <td><?php print($row['Account_funds_spent']); ?></td>
-       <td><?php print($row['Account_available_funds']); ?></td>
-       <td><?php print($row['semester_year']); ?></td>
-       
-          
-          </tr>
-       <?php
-   }
-  }
-  else
-  {
-   ?>
-      <tr>
-      <td><?php print("nothing here...");  ?></td>
-      </tr>
-      <?php
-  }
-  ?>
-  </table>
+	 
+  <head>
+<title>Change Password</title>
+<link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+<center>
+<body>
+<form name="frmChange" method="post" action="" onSubmit="return validatePassword()">
+<div style="width:500px;">
+<div class="message"><?php if(isset($message)) { echo $message; } ?></div>
+<table table border="1" width="40%" class="table table-bordered">
+<tr>
+<td width="40%"><label>Current Password</label></td>
+<td width="60%"><input type="password" name="currentPassword" class="txtField"/><span id="currentPassword"  class="required"></span></td>
+</tr>
+<tr>
+<td><label>New Password</label></td>
+<td><input type="password" name="newPassword" class="txtField"/><span id="newPassword" class="required"></span></td>
+</tr>
+<td><label>Confirm Password</label></td>
+<td><input type="password" name="confirmPassword" class="txtField"/><span id="confirmPassword" class="required"></span></td>
+</tr>
+<tr>
+<td colspan="2"><input type="submit" name="submit" value="Submit" class="btnSubmit"></td>
+</tr>
+</table>
+</div>
+</form>
+</body></center>
  
 </div>
 
@@ -151,11 +131,6 @@ input
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/password.js"></script>
     </body>
 </html>
-<?php
-}
-else{
-	header('Location: index.php?err=2');
-}
-?>

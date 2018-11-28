@@ -50,6 +50,7 @@ input
 				<a data-toggle="dropdown" class="dropdown-toggle" href="#"><?php echo $username ?><b class="caret"></b></a>
                     <ul class="dropdown-menu">
 						<li><a href="events.php">Home</a></li>
+						<li><a href="update_password.php">Change Password</a></li>
 						<li><a href="logout.php">Logout</a></li>
 					</ul>
 				</li>

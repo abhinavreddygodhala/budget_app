@@ -133,13 +133,13 @@ input
   <form method="post">   
   <table border="1" width="40%" cellpadding="15" class="table table-bordered">
   <tr>
-  <td><input type="number" name="acc_id" placeholder="account id" value="<?php print($Account_id); ?>" required></td>
+  <td><?php print "Account ID: $Account_id"; ?><input type="hidden" name="acc_id" placeholder="account id" value="<?php print($Account_id); ?>" required></td>
   </tr>
   <tr>
-  <td><input type="number" name="cat_id" placeholder="Category ID" required="" value="<?php if(isset($_GET['edit_id'])){ print($editRow['Categories_id']); } ?>" ></td>
+  <td><?php if(isset($_GET['edit_id'])){ print($editRow['Categories_id']); } ?><input type="hidden" name="cat_id" placeholder="Category ID" required="" value="<?php if(isset($_GET['edit_id'])){ print($editRow['Categories_id']); } ?>" ></td>
   </tr>
   <tr>
-  <td><input type="text" name="cat_name" placeholder="category Name" required="" value="<?php if(isset($_GET['edit_id'])){ print($editRow['Categorie_name']); } ?>" ></td>
+  <td><?php if(isset($_GET['edit_id'])){ print($editRow['Categorie_name']); } ?><input type="hidden" name="cat_name" placeholder="category Name" required="" value="<?php if(isset($_GET['edit_id'])){ print($editRow['Categorie_name']); } ?>" ></td>
   </tr>
   <tr>
   <td><input type="number" step="0.01" name="cat_funds_total" placeholder="Funds Budgeted" required="" value="<?php if(isset($_GET['edit_id'])){ print($editRow['funds_total']); } ?>" /></td>

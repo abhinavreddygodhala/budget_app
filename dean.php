@@ -50,6 +50,7 @@ input
                     <ul class="dropdown-menu">
 						<li><a href="dean.php">Home</a></li>
 						<li><a href="logs.php">View Logs</a></li>
+						<li><a href="update_password.php">Change Password</a></li>
 						<li><a href="logout.php">Logout</a></li>
 					</ul>
 				</li>
